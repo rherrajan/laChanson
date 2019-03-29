@@ -1,0 +1,17 @@
+{
+  "name": "laChanson",
+  "short_name": "laChanson",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "Theme_color": "#7e5c00",
+  "description": "Mittelalterliche Simulation eines von Banditen bedrohten Dorfes",
+  "icons": [
+    {
+      "src":"assets/icons/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+
+}

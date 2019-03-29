@@ -1,0 +1,5 @@
+{
+  "name": "laChanson",
+  "description": "Mittelalterliche Simulation eines von Banditen bedrohten Dorfes",
+  "addons": [ "heroku-postgresql" ]
+}
