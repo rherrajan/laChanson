@@ -1,9 +1,17 @@
 ---
-title: Home
+title: Dorfeingang
 layout: default.hbs
-menu-order: 1
 ---
 
-# Homepage
+# Dorfeingang
 
-TODO: add content here
+Hallo Wanderer,
+
+willkommen in Muge. Wir sind ein kleines, normalerweise friedliches Dorf im Westerwald. 
+Gerade gibt es aber Gerüchte über eine Bande Räuber, die in der Gegend umherstreift.
+Als Torwächter muss ich dich deshalb leider einmal durchsuchen...
+
+* [Finger weg!](dorfeingang/finger_weg)
+* [Ok. Ich besitze nichts, was ich verstecken müsste](dorfeingang/durchsuchen)
+
+

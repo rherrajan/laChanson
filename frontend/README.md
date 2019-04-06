@@ -13,6 +13,7 @@ Build the static frontend
 ```
 
 generate the html
+
 ```bash
 	npm start
 ```

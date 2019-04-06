@@ -1,6 +1,6 @@
 ---
 title: Version
-description: Systeminformation about the dynamic backend
+description: bauernhof_description
 layout: default.hbs
 menu-order: 1
 ---
