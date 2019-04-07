@@ -1,7 +1,7 @@
 function loadStory() {
   	var uuid = getUUID();
   
-  	alert(" --- lets get ready to rumble " + uuid + "!!! --- ");
+  	//alert(" --- lets get ready to rumble " + uuid + "!!! --- ");
   
 	var statusURL = createBackendURL("loadStory");
 	var xhttp = new XMLHttpRequest();
@@ -9,9 +9,7 @@ function loadStory() {
 		if (this.readyState == 4) {
 
 			if(this.status == 200){
-			  	alert(" --- go --- ");
-				statusElement.classList.add("led-green");
-				statusElement.title = xhttp.responseText;
+			  	alert(" --- go: " + xhttp.responseText);
 			} else {
 				alert("error " + this.status);
 			}
