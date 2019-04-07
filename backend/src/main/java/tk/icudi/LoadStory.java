@@ -26,7 +26,7 @@ public class LoadStory {
 	@ModelAttribute
 	public void setVaryResponseHeader(HttpServletResponse response) {
 	    response.setHeader("Access-Control-Allow-Origin", "*");	  
-	    response.setHeader("Access-Control-Request-Headers", "Origin, X-Requested-With, Content-Type, Accept");	  
+//	    response.setHeader("Access-Control-Request-Headers", "Origin, X-Requested-With, Content-Type, Accept");	  
 	}   
 		
 }

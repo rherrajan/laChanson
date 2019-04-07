@@ -17,7 +17,9 @@ function loadStory() {
 	}
 	
 	xhttp.open("POST", statusURL, true);
-	xhttp.setRequestHeader("X-Authorization", uuid);
-	xhttp.send();
+	xhttp.setRequestHeader('Content-Type', 'application/json');
+	xhttp.send(JSON.stringify({
+      uuid: uuid
+	}));
 
 }
