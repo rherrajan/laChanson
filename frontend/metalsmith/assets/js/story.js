@@ -18,6 +18,8 @@ function loadStory() {
 	
 	xhttp.open("POST", statusURL, true);
 	//xhttp.setRequestHeader('Content-Type', 'application/json');
-	xhttp.send("uuid="+uuid);
+	xhttp.send(JSON.stringify({
+      uuid: uuid
+	}));
 
 }

@@ -20,9 +20,9 @@ public class LoadStory {
 	@RequestMapping(value="/loadStory", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	String loadStory(@RequestBody Map<String, String> payload) throws IOException {
-		System.out.println(" --- detected " + payload.get("uuid"));
-		return "holla_die_waldfee du " + payload.get("uuid"); 
-//		return "holla_die_waldfee"; 
+//		System.out.println(" --- detected " + payload.get("uuid"));
+//		return "holla_die_waldfee du " + payload.get("uuid"); 
+		return "holla_die_waldfee"; 
 	}
 
 	@ModelAttribute
