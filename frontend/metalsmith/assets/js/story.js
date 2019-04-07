@@ -9,7 +9,7 @@ function loadStory() {
 		if (this.readyState == 4) {
 
 			if(this.status == 200){
-			  	alert(" --- : " + xhttp.responseText);
+			  	alert(" --- " + xhttp.responseText);
 			} else {
 				alert("error " + this.status + " ("+ this.statusText + ")");
 			}
@@ -17,9 +17,8 @@ function loadStory() {
 	}
 	
 	xhttp.open("POST", statusURL, true);
-	//xhttp.setRequestHeader('Content-Type', 'application/json');
-	xhttp.send(JSON.stringify({
-      uuid: uuid
-	}));
+	// xhttp.setRequestHeader('Content-Type', 'application/json');
+	// xhttp.send(JSON.stringify({uuid: uuid}));
+	xhttp.send("uuid:"+uuid);
 
 }

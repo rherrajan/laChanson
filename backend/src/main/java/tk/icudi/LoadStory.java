@@ -1,11 +1,13 @@
 package tk.icudi;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,11 @@ public class LoadStory {
 	@ResponseBody
 	String loadStory(HttpServletRequest request) throws IOException {
 
+		System.out.println(" --- getContentType: " + request.getContentType());
+		
+		String result = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
+		System.out.println(" --- result: " + result);
+		
 		String uuid = request.getParameter("uuid");
 		System.out.println(" --- uuid " + uuid);
 		return "holla_die_waldfee du " + uuid; 
