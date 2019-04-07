@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,7 @@ public class LoadStory {
 	@RequestMapping(value="/loadStory", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	String getSysteminfo(@RequestHeader("uuid") String uuid) throws IOException {
+		System.out.println(" --- detected " + uuid);
 		return "holla_die_waldfee du " + uuid; 
 	}
 

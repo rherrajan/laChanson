@@ -1,7 +1,7 @@
 function loadStory() {
   	var uuid = getUUID();
   
-  	//alert(" --- lets get ready to rumble " + uuid + "!!! --- ");
+  	alert(" --- lets get ready to rumble " + uuid + "!!! --- ");
   
 	var statusURL = createBackendURL("loadStory");
 	var xhttp = new XMLHttpRequest();
@@ -16,9 +16,8 @@ function loadStory() {
 		};
 	}
 	
-	xhttp.setRequestHeader("uuid", uuid);
 	xhttp.open("GET", statusURL, true);
-
+	xhttp.setRequestHeader("uuid", uuid);
 	xhttp.send();
 
 }
