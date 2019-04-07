@@ -1,6 +1,8 @@
 package tk.icudi;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,14 +53,18 @@ public class DBExample {
 
 			return calls;
 		} catch (Exception e) {
-			return "error: " + e;
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stackTrace = sw.toString();
+			
+			return "error: " + e + "\n" + stackTrace;
 		}
 	}
 
 	@Bean
 	public DataSource dataSource() throws SQLException {
 		if (dbUrl == null || dbUrl.isEmpty()) {
-			return new HikariDataSource();
+			throw new IllegalArgumentException("no db url configured");
 		} else {
 			HikariConfig config = new HikariConfig();
 			config.setJdbcUrl(dbUrl);
