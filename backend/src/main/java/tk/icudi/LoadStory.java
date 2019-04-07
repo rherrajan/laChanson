@@ -3,6 +3,7 @@ package tk.icudi;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,12 @@ public class LoadStory {
 
 	@RequestMapping(value="/loadStory", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	String loadStory(@RequestBody Object payload) throws IOException {
-//		System.out.println(" --- detected " + payload.get("uuid"));
-//		return "holla_die_waldfee du " + payload.get("uuid"); 
-		return "holla_die_waldfee"; 
+	String loadStory(HttpServletRequest request) throws IOException {
+
+		String uuid = request.getParameter("uuid");
+		System.out.println(" --- uuid " + uuid);
+		return "holla_die_waldfee du " + uuid; 
+//		return "holla_die_waldfee"; 
 	}
 
 	@ModelAttribute
