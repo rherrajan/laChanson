@@ -9,9 +9,9 @@ function loadStory() {
 		if (this.readyState == 4) {
 
 			if(this.status == 200){
-			  	alert(" --- go: " + xhttp.responseText);
+			  	alert(" --- : " + xhttp.responseText);
 			} else {
-				alert("error " + this.status);
+				alert("error " + this.status + " ("+ this.statusText + ")");
 			}
 		};
 	}

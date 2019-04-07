@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -19,7 +18,7 @@ public class LoadStory {
 
 	@RequestMapping(value="/loadStory", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	String loadStory(@RequestBody Map<String, String> payload) throws IOException {
+	String loadStory(@RequestBody Object payload) throws IOException {
 //		System.out.println(" --- detected " + payload.get("uuid"));
 //		return "holla_die_waldfee du " + payload.get("uuid"); 
 		return "holla_die_waldfee"; 
