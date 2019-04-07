@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoadStory {
 
-	@RequestMapping(value="/loadStory", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value="/loadStory", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	String getSysteminfo() throws IOException {
 //		System.out.println(" --- detected " + uuid);
