@@ -16,7 +16,9 @@ function loadStory() {
 		};
 	}
 	
+	xhttp.setRequestHeader("uuid", uuid);
 	xhttp.open("GET", statusURL, true);
+
 	xhttp.send();
 
 }
