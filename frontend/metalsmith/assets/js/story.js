@@ -17,7 +17,7 @@ function loadStory() {
 	}
 	
 	xhttp.open("POST", statusURL, true);
-	xhttp.setRequestHeader("authorization", uuid);
+	xhttp.setRequestHeader("X-Authorization", uuid);
 	xhttp.send();
 
 }
