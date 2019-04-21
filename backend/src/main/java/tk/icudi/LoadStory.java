@@ -2,6 +2,7 @@ package tk.icudi;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +28,24 @@ public class LoadStory {
 		
 		String result = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
 		System.out.println(" --- result: " + result);
+		Map<String, String> map = toMap(result);
 		
-		String uuid = request.getParameter("uuid");
+		String uuid = map.get("uuid");
 		System.out.println(" --- uuid " + uuid);
-		return "holla_die_waldfee du " + uuid; 
+		return "holla_die_waldfee, " + uuid; 
 //		return "holla_die_waldfee"; 
+	}
+
+	private Map<String, String> toMap(String mapString) {
+		Map<String, String> resultMap = new HashMap<String, String>();
+		String[] pairs = mapString.split(",");
+		for (int i=0;i<pairs.length;i++) {
+		    String pair = pairs[i];
+		    String[] keyValue = pair.split(":");
+		    resultMap.put(keyValue[0], keyValue[1]);
+		}
+		
+		return resultMap;
 	}
 
 	@ModelAttribute
