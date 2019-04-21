@@ -74,7 +74,7 @@ public class DBExample {
 			HikariConfig config = new HikariConfig();
 			config.setJdbcUrl(jdbcUrl);
 
-			if(dbUri.getUserInfo().contains(":")) {
+			if(dbUri.getUserInfo() != null && dbUri.getUserInfo().contains(":")) {
 				String username = dbUri.getUserInfo().split(":")[0];
 				String password = dbUri.getUserInfo().split(":")[1];
 				config.setUsername(username);
