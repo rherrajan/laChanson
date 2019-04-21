@@ -69,16 +69,18 @@ public class DBExample {
 			throw new IllegalArgumentException("no db url configured");
 		} else {
 			URI dbUri = new URI(dbUrl);
-		    String jdbcUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
 		    
 			HikariConfig config = new HikariConfig();
-			config.setJdbcUrl(jdbcUrl);
 
 			if(dbUri.getUserInfo() != null && dbUri.getUserInfo().contains(":")) {
+				String jdbcUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
 				String username = dbUri.getUserInfo().split(":")[0];
 				String password = dbUri.getUserInfo().split(":")[1];
+				config.setJdbcUrl(jdbcUrl);
 				config.setUsername(username);
 				config.setPassword(password);
+			} else {
+				config.setJdbcUrl(dbUrl);
 			}
 			return new HikariDataSource(config);
 		}
