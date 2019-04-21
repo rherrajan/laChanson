@@ -3,6 +3,8 @@ package tk.icudi;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,12 +64,19 @@ public class DBExample {
 	}
 
 	@Bean
-	public DataSource dataSource() throws SQLException {
+	public DataSource dataSource() throws SQLException, URISyntaxException {
 		if (dbUrl == null || dbUrl.isEmpty()) {
 			throw new IllegalArgumentException("no db url configured");
 		} else {
+			URI dbUri = new URI(dbUrl);
+		    String username = dbUri.getUserInfo().split(":")[0];
+		    String password = dbUri.getUserInfo().split(":")[1];
+		    String jdbcUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+		    
 			HikariConfig config = new HikariConfig();
-			config.setJdbcUrl(dbUrl);
+			config.setJdbcUrl(jdbcUrl);
+			config.setUsername(username);
+			config.setPassword(password);
 			return new HikariDataSource(config);
 		}
 	}
