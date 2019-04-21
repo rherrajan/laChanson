@@ -1,7 +1,6 @@
 function loadStory() {
   	var uuid = getUUID();
   
-  	alert(" --- lets get ready to rumble " + uuid + "!!! --- ");
   
 	var statusURL = createBackendURL("loadStory");
 	var xhttp = new XMLHttpRequest();
