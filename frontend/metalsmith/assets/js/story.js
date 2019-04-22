@@ -9,6 +9,8 @@ function loadStory() {
 
 			if(this.status == 200){
 			  	alert(" --- " + xhttp.responseText);
+			} else if(this.status == 0){
+				alert("error. is backend running and CORS enabled?");
 			} else {
 				alert("error " + this.status + " ("+ this.statusText + ")");
 			}

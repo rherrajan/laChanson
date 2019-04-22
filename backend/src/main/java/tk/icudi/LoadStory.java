@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -31,27 +32,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoadStory {
 
 	@Autowired
-	private DataSource dataSource;
+	DataSource dataSource;
 	
 	@RequestMapping(value="/loadStory", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	String loadStory(HttpServletRequest request) throws IOException {
-
-		System.out.println(" --- getContentType: " + request.getContentType());
+	PlayerData loadStory(HttpServletRequest request) throws IOException, SQLException {
 		
-		String result = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
-		System.out.println(" --- result: " + result);
-		Map<String, String> map = toMap(result);
+		Map<String, String> requestMap = toMap(IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8));
 		
-		String uuid = map.get("uuid");
+		String uuid = requestMap.get("uuid");
 		System.out.println(" --- uuid " + uuid);
-		List<String> data = getPlayerData(uuid);
-		System.out.println(" --- data " + data);
-		return data.get(0); 
+		PlayerData playerData = getPlayerData(uuid);
+
+		return playerData;
 	}
 
-	private List<String> getPlayerData(String uuid) {
-		List<String> data = new ArrayList<String>();
+	private PlayerData getPlayerData(String uuid) throws SQLException {
 
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
@@ -61,17 +57,14 @@ public class LoadStory {
 			ResultSet rs = stmt.executeQuery("SELECT location FROM players");
 
 			while (rs.next()) {
-				data.add(rs.getString("location"));
+				PlayerData data = new PlayerData();
+				data.location = rs.getString("location");
+				return data;
 			}
-
-		} catch (Exception e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String stackTrace = sw.toString();
 			
-			data.add("error: " + e + "\n" + stackTrace);
+			throw new RuntimeException("could not find or create player data");
 		}
-		return data;
+
 	}
 
 	private Map<String, String> toMap(String mapString) {
