@@ -51,7 +51,15 @@ public class LoadStory {
 
 	private String createMarkup(String filename) throws IOException, URISyntaxException {
 		String input = readFile(filename);
-		return parseMarkdown(input);
+		String data = removeMetadata(input);
+		return parseMarkdown(data);
+	}
+
+	private String removeMetadata(String input) {
+		int metaBlockStart = input.indexOf("---");
+		int metaBlockEnd = input.indexOf("---", metaBlockStart + "---".length());
+		int markupStart = input.indexOf("\n",metaBlockEnd + "---".length());
+		return input.substring(markupStart);
 	}
 
     private String parseMarkdown(String input) {
