@@ -10,7 +10,7 @@ npm start
 http-server ./dist &
 
 sleep 1s
-sensible-browser http://localhost:8080/
+sensible-browser http://localhost:8080/ &
 
 grunt watch
 

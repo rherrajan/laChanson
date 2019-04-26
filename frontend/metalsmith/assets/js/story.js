@@ -1,25 +1,27 @@
 function loadStory() {
   	var uuid = getUUID();
-  
-  
 	var statusURL = createBackendURL("loadStory");
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4) {
-
 			if(this.status == 200){
-			  	alert(" --- " + xhttp.responseText);
+				alert(" --- responseText: " + xhttp.responseText);
+				showStory(JSON.parse(xhttp.responseText));
 			} else if(this.status == 0){
-				alert("error. is backend running and CORS enabled?");
+				alert("cors error. is backend running?");
 			} else {
-				alert("error " + this.status + " ("+ this.statusText + ")");
+				alert("error, response: " + this.status + " ("+ this.statusText + ")");
 			}
 		};
 	}
 	
 	xhttp.open("POST", statusURL, true);
-	// xhttp.setRequestHeader('Content-Type', 'application/json');
-	// xhttp.send(JSON.stringify({uuid: uuid}));
 	xhttp.send("uuid:"+uuid);
+};
 
+function showStory(story) {
+	alert(" --- markup: " + story.location.markup);
+	
+	var storyPart = document.querySelector('#story-part');
+	storyPart.innerHTML = story.location.markup;
 }

@@ -1,17 +1,13 @@
 package tk.icudi;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,13 +16,17 @@ import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 @Controller
 public class LoadStory {
@@ -36,15 +36,43 @@ public class LoadStory {
 	
 	@RequestMapping(value="/loadStory", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	PlayerData loadStory(HttpServletRequest request) throws IOException, SQLException {
+	StoryData loadStory(HttpServletRequest request) throws IOException, SQLException, URISyntaxException {
 		
 		Map<String, String> requestMap = toMap(IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8));
 		
 		String uuid = requestMap.get("uuid");
 		System.out.println(" --- uuid " + uuid);
-		PlayerData playerData = getPlayerData(uuid);
+		StoryData story = new StoryData();
+		story.player = getPlayerData(uuid);
+		story.location.markup = createMarkup("markdown/index.md");
+		
+		return story;
+	}
 
-		return playerData;
+	private String createMarkup(String filename) throws IOException, URISyntaxException {
+		String input = readFile(filename);
+		return parseMarkdown(input);
+	}
+
+    private String parseMarkdown(String input) {
+    	Parser parser = Parser.builder().build();
+    	Node document = parser.parse(input);
+    	HtmlRenderer renderer = HtmlRenderer.builder().build();
+    	return renderer.render(document);
+	}
+
+//	private String readFile(String filename) throws IOException, URISyntaxException {
+//		URL systemResource = ClassLoader.getSystemResource(filename);
+//		URI uri = systemResource.toURI();
+//		Path path = Paths.get(uri);
+//		byte[] readAllBytes = Files.readAllBytes(path);
+//		return new String(readAllBytes);
+//	}
+
+	private String readFile(String filename) throws IOException, URISyntaxException {
+	    final DefaultResourceLoader loader = new DefaultResourceLoader();   
+	    Resource resource = loader.getResource("classpath:" + filename);  
+	    return IOUtils.toString(resource.getInputStream(), "UTF-8"); 
 	}
 
 	private PlayerData getPlayerData(String uuid) throws SQLException {
