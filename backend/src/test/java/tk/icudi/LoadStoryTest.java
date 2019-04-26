@@ -40,7 +40,7 @@ public class LoadStoryTest extends AbstractDBTest {
 		loadStory.dataSource = getDataSource();
 		LocationData locationData = loadStory.loadStory(request).location;
 		
-		assertThat(locationData.markup, containsString("Start"));
+		assertThat(locationData.markup, containsString("Neustart"));
 	}
 
 	// TODO: shouldParseTemplate

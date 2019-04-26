@@ -5,6 +5,6 @@ layout: start.hbs
 
 # LaChanson
 
-* [Start](dorfeingang/index)
-
+* [Neustart](dorfeingang/index?action=start)
+* [Weitermachen](dorfeingang/index?action=continue)
 
