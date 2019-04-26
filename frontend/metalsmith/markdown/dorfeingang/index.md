@@ -5,6 +5,9 @@ layout: default.hbs
 
 # Dorfeingang
 
+![muge](/assets/images/muge.png)
+
+
 Hallo Wanderer,
 
 willkommen in Muge. Wir sind ein kleines, normalerweise friedliches Dorf im Westerwald. 
