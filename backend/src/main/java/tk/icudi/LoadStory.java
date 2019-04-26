@@ -41,7 +41,6 @@ public class LoadStory {
 		Map<String, String> requestMap = toMap(IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8));
 		
 		String uuid = requestMap.get("uuid");
-		System.out.println(" --- uuid " + uuid);
 		StoryData story = new StoryData();
 		story.player = getPlayerData(uuid);
 		story.location.markup = createMarkup("markdown/index.md");

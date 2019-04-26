@@ -5,7 +5,6 @@ function loadStory() {
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4) {
 			if(this.status == 200){
-				alert(" --- responseText: " + xhttp.responseText);
 				showStory(JSON.parse(xhttp.responseText));
 			} else if(this.status == 0){
 				alert("cors error. is backend running?");
@@ -20,8 +19,6 @@ function loadStory() {
 };
 
 function showStory(story) {
-	alert(" --- markup: " + story.location.markup);
-	
 	var storyPart = document.querySelector('#story-part');
 	storyPart.innerHTML = story.location.markup;
 }

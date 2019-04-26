@@ -40,8 +40,6 @@ public class LoadStoryTest extends AbstractDBTest {
 		loadStory.dataSource = getDataSource();
 		LocationData locationData = loadStory.loadStory(request).location;
 		
-		System.out.println(" --- locationData.markup: " + locationData.markup);
-		
 		assertThat(locationData.markup, containsString("Start"));
 	}
 
