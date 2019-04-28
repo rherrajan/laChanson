@@ -31,7 +31,7 @@ public class AbstractDBTest {
 	protected void dropTable(String tablename){
 		try (Connection connection = getDataSource().getConnection()) {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("DROP TABLE players");
+			stmt.executeUpdate("DROP TABLE IF EXISTS players");
 		}catch(SQLException ex) {
 			throw new RuntimeException("could not drop " + tablename, ex);
 		}

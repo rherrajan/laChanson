@@ -13,3 +13,5 @@ Wenn du der Straße folgst, kommst du in die Dorfmitte. Dort findest du unsere T
 Orte: Taverne, Burg, Bauernhof
 
 # Ende
+
+* [Neustart](dorfeingang/index?action=start)

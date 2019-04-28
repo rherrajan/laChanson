@@ -5,6 +5,6 @@ layout: default.hbs
 
 # Kerker
 
-* [Trank trinken!](/index)
+* [Trank trinken!](/dorfeingang/index?action=softreset)
 * [Warten](/kerker/warten)
 

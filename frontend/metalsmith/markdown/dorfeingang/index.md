@@ -14,7 +14,7 @@ willkommen in Muge. Wir sind ein kleines, normalerweise friedliches Dorf im West
 Gerade gibt es aber Gerüchte über eine Bande Räuber, die in der Gegend umherstreift.
 Als Torwächter muss ich dich deshalb leider einmal durchsuchen...
 
-* [Finger weg!](finger_weg)
-* [Ok. Ich besitze nichts, was ich verstecken müsste](durchsuchen)
+* [Finger weg!](/dorfeingang/finger_weg)
+* [Ok. Ich besitze nichts, was ich verstecken müsste](/dorfeingang/durchsuchen)
 
 

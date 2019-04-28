@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -26,7 +27,7 @@ public class LoadStoryTest extends AbstractDBTest {
 		loadStory.dataSource = getDataSource();
 		PlayerData playerData = loadStory.loadStory(request).player;
 		
-		assertThat(playerData.location, is("start"));
+		assertThat(playerData.location, is("/dorfeingang/index"));
 	}
 	
 	@Test
@@ -40,10 +41,7 @@ public class LoadStoryTest extends AbstractDBTest {
 		loadStory.dataSource = getDataSource();
 		LocationData locationData = loadStory.loadStory(request).location;
 		
-		assertThat(locationData.markup, containsString("Neustart"));
+		assertThat(locationData.markup, containsString("willkommen"));
 	}
-
-	// TODO: shouldParseTemplate
-	// TODO: show in FE
-	
+		
 }
