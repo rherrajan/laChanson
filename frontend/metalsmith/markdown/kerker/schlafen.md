@@ -1,6 +1,7 @@
 ---
 title: Kerker
 layout: default.hbs
+knowledge: raeuber_ueberfall
 ---
 
 # Kerker

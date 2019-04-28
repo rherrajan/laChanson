@@ -92,15 +92,17 @@ public class DBDebugger {
 		ResultSet rs = stmt.executeQuery("SELECT * FROM " + name);
 		final int columnCount = rs.getMetaData().getColumnCount();
 		
+		JSONArray resultArray = new JSONArray();
+		
+		String[] cnames = new String[columnCount];
 		for (int i = 1; i <= columnCount; ++i) {
 			String cname = rs.getMetaData().getColumnName(i);
-			System.out.println(" --- cname: " + cname);
+			cnames[i - 1] = (cname);
 		}
+		resultArray.put(cnames);
 		
-		System.out.println(" --- columnCount: " + columnCount);
-		JSONArray resultArray = new JSONArray();
 		while (rs.next()) {
-			Object[] row = new Object[columnCount];
+			String[] row = new String[columnCount];
 			for (int i = 1; i <= columnCount; ++i) {
 			    row[i - 1] = rs.getString(i);
 			}

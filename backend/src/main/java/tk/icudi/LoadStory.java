@@ -59,16 +59,16 @@ public class LoadStory {
 //		String source = getPlayerData(uuid).location;
 		
 		System.out.println(" --- uuid: " + uuid);
-		System.out.println(" --- action: " + action);
+//		System.out.println(" --- action: " + action);
 //		System.out.println(" --- source: " + source);
-		System.out.println(" --- destination: " + destination);
+		System.out.println("  --- destination: " + destination);
 		
 		String metadata = getMetadata("markdown" + destination + ".md");
 		int know = metadata.indexOf("knowledge: ");
 		String foundKnowledge;
 		if(know != -1) {
 			foundKnowledge = metadata.substring(know + "knowledge: ".length(), metadata.indexOf("\n", know));
-			System.out.println(" --- knowledge: " + foundKnowledge);	
+			System.out.println("  --- foundKnowledge: " + foundKnowledge);	
 		} else {
 			foundKnowledge = "";
 		}
@@ -154,6 +154,7 @@ public class LoadStory {
 				PlayerData data = new PlayerData();
 				data.location = rs.getString("location");
 				data.knowledge = rs.getString("knowledge");
+				System.out.println("  --- reading knowledge from db: " + data.knowledge);
 				return data;
 			}
 			
@@ -168,6 +169,7 @@ public class LoadStory {
 		
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
+			System.out.println("  --- saving knowledge to db: " + data.knowledge);
 			stmt.executeUpdate("UPDATE players SET location='" + data.location + "', tick=now(), knowledge='" + data.knowledge + "' WHERE uuid='" + uuid + "'");
 			return data;
 		}
