@@ -1,18 +1,13 @@
 package tk.icudi;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -30,38 +28,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.commonmark.node.*;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
-
 @Controller
 public class LoadStory {
 
 	@Autowired
 	DataSource dataSource;
-	
-	@RequestMapping(value="/databaseLocations", method = RequestMethod.GET, produces = "application/json")
-	@ResponseBody
-	Object getDatabase() throws IOException {
-
-		try (Connection connection = dataSource.getConnection()) {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT location FROM players");
-
-			List<String> locations = new ArrayList<String>();
-			while (rs.next()) {
-				locations.add(rs.getString("location"));
-			}
-
-			return locations;
-		} catch (Exception e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String stackTrace = sw.toString();
-			
-			return "error: " + e + "\n" + stackTrace;
-		}
-	}
 	
 	@RequestMapping(value="/loadStory", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
@@ -87,6 +58,7 @@ public class LoadStory {
 		
 //		String source = getPlayerData(uuid).location;
 		
+		System.out.println(" --- uuid: " + uuid);
 		System.out.println(" --- action: " + action);
 //		System.out.println(" --- source: " + source);
 		System.out.println(" --- destination: " + destination);
@@ -173,13 +145,14 @@ public class LoadStory {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("UPDATE players SET location='" + destination+ "' WHERE uuid='" + uuid + "'");
 			ResultSet rs = stmt.executeQuery("SELECT location FROM players WHERE uuid='" + uuid + "'");
-			while (rs.next()) {
+			//ResultSet rs = stmt.executeQuery("SELECT location FROM players");
+			if (rs.next()) {
 				PlayerData data = new PlayerData();
 				data.location = rs.getString("location");
 				return data;
+			} else {
+				throw new RuntimeException("could not find player data");
 			}
-			
-			throw new RuntimeException("could not find player data");
 		}
 	}
 	
