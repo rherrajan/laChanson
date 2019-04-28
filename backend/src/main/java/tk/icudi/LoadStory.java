@@ -63,13 +63,27 @@ public class LoadStory {
 //		System.out.println(" --- source: " + source);
 		System.out.println(" --- destination: " + destination);
 		
-		StoryData story = new StoryData();
-		story.player = updatePlayerData(uuid, destination);
-		story.location.markup = createMarkup("markdown" + story.player.location + ".md");
+		String metadata = getMetadata("markdown" + destination + ".md");
+		int know = metadata.indexOf("knowledge: ");
+		String foundKnowledge;
+		if(know != -1) {
+			foundKnowledge = metadata.substring(know + "knowledge: ".length(), metadata.indexOf("\n", know));
+			System.out.println(" --- knowledge: " + foundKnowledge);	
+		} else {
+			foundKnowledge = "";
+		}
 		
+		StoryData story = new StoryData();
+		story.player = updatePlayerData(uuid, destination, foundKnowledge);
+		story.location.markup = createMarkup("markdown" + destination + ".md");
 		return story;
 	}
 	
+	private String getMetadata(String filename) throws IOException, URISyntaxException {
+		String input = readFile(filename);
+		return extractMetadata(input);
+	}
+
 	private String createMarkup(String filename) throws IOException, URISyntaxException {
 		String input = readFile(filename);
 		String data = removeMetadata(input);
@@ -83,6 +97,13 @@ public class LoadStory {
 		return input.substring(markupStart);
 	}
 
+	private String extractMetadata(String input) {
+		int metaBlockStart = input.indexOf("---");
+		int metaBlockEnd = input.indexOf("---", metaBlockStart + "---".length());
+		int markupStart = input.indexOf("\n",metaBlockEnd + "---".length());
+		return input.substring(0, markupStart);
+	}
+	
     private String parseMarkdown(String input) {
     	Parser parser = Parser.builder().build();
     	Node document = parser.parse(input);
@@ -100,8 +121,7 @@ public class LoadStory {
 
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			//stmt.executeUpdate("DROP TABLE IF EXISTS players"); // uncomment when sturucture changes are made
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS players (uuid text, tick timestamp, location text, PRIMARY KEY (uuid))");
+			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS players (uuid text, tick timestamp, location text, knowledge text, PRIMARY KEY (uuid))");
 			
 			ResultSet rs = stmt.executeQuery("SELECT location FROM players WHERE uuid='" + uuid + "'");
 //			ResultSet rs = stmt.executeQuery("SELECT location FROM players");
@@ -129,10 +149,11 @@ public class LoadStory {
 	private PlayerData getPlayerData(String uuid) throws SQLException {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT location FROM players WHERE uuid='" + uuid + "'");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM players WHERE uuid='" + uuid + "'");
 			while (rs.next()) {
 				PlayerData data = new PlayerData();
 				data.location = rs.getString("location");
+				data.knowledge = rs.getString("knowledge");
 				return data;
 			}
 			
@@ -140,19 +161,15 @@ public class LoadStory {
 		}
 	}
 	
-	private PlayerData updatePlayerData(String uuid, String destination) throws SQLException {
+	private PlayerData updatePlayerData(String uuid, String destination, String foundKnowledge) throws SQLException {
+		PlayerData data = getPlayerData(uuid);
+		data.location = destination;
+		data.addKnowledge(foundKnowledge);
+		
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("UPDATE players SET location='" + destination+ "' WHERE uuid='" + uuid + "'");
-			ResultSet rs = stmt.executeQuery("SELECT location FROM players WHERE uuid='" + uuid + "'");
-			//ResultSet rs = stmt.executeQuery("SELECT location FROM players");
-			if (rs.next()) {
-				PlayerData data = new PlayerData();
-				data.location = rs.getString("location");
-				return data;
-			} else {
-				throw new RuntimeException("could not find player data");
-			}
+			stmt.executeUpdate("UPDATE players SET location='" + data.location + "', tick=now(), knowledge='" + data.knowledge + "' WHERE uuid='" + uuid + "'");
+			return data;
 		}
 	}
 	

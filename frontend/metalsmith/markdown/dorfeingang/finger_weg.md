@@ -1,6 +1,7 @@
 ---
 title: Dorfeingang
 layout: default.hbs
+knowledge: wache_ist_ueberlastet
 ---
 
 # Dorfeingang

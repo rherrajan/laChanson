@@ -59,10 +59,43 @@ public class DBDebugger {
 
 	}
 
+	@RequestMapping("/dropDatabase")
+	ResponseEntity<String> dropDatabase(@RequestParam String name) {
+		
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("DROP TABLE IF EXISTS " + name);
+			
+		    final HttpHeaders httpHeaders= new HttpHeaders();
+		    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		    return new ResponseEntity<String>("{\"success\": \"true\"}", httpHeaders, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JSONObject error = new JSONObject();
+			try {
+				error.put("error", e.toString());
+			} catch (JSONException e1) {
+				throw new RuntimeException("error while generation error message for: " + e, e1);
+			}
+			
+		    final HttpHeaders httpHeaders= new HttpHeaders();
+		    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		    return new ResponseEntity<String>(error.toString(), httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+		    
+		}
+
+	}
+	
 	private JSONObject readFromDB(Connection connection, String name) throws SQLException, JSONException {
 		Statement stmt = connection.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM " + name);
 		final int columnCount = rs.getMetaData().getColumnCount();
+		
+		for (int i = 1; i <= columnCount; ++i) {
+			String cname = rs.getMetaData().getColumnName(i);
+			System.out.println(" --- cname: " + cname);
+		}
 		
 		System.out.println(" --- columnCount: " + columnCount);
 		JSONArray resultArray = new JSONArray();

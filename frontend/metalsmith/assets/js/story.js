@@ -42,6 +42,11 @@ function showStory(story) {
 		  return false;
 		};
 	})
+	
+	if(story.player.additionalKnowledge){
+		alert("Wissen hinzugewonnen");
+	}
+
 }
 
 function sendProgress(backendURL) {
