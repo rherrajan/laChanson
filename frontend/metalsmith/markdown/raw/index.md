@@ -1,6 +1,6 @@
 ---
 title: LaChanson
-layout: default.hbs
+layout: debug.hbs
 ---
 
 # LaChanson
