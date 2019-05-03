@@ -10,7 +10,5 @@ Sieht nicht so aus, als könntest du allzuviel Schaden anrichten. Komm rein!
 Du siehst müde aus. Schau doch mal in der Herberge vorbei.
 Übernachten ist bei uns kostenlos und ein Brot bekommst du auch immer so
 
-# Ende
-
-* [zur Herberge](herberge/index)
-* [wie gehts dir?](dorfeingang/befinden)
+* [zur Herberge](/herberge/index)
+* [wie gehts dir?](/dorfeingang/befinden)
